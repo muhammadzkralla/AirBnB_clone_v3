@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-"""
-module that defines API interactions for Places __objects
-"""
+"""Places controller"""
+
 from models import storage
 from models.place import Place
 from api.v1.views import app_views
@@ -11,10 +10,7 @@ from flask import jsonify, abort, request, make_response
 @app_views.route('/cities/<city_id>/places',
                  strict_slashes=False, methods=['GET'])
 def get_places(city_id):
-    """
-    defines the places route
-    Returns: list of all Place objects associated with a City obj
-    """
+    """GET places"""
     city = storage.get("City", city_id)
     if city:
         return jsonify([place.to_dict() for place in city.places])
@@ -24,10 +20,7 @@ def get_places(city_id):
 @app_views.route('/places/<place_id>',
                  strict_slashes=False, methods=['GET'])
 def id_for_place(place_id):
-    """
-    defines the places/<place_id> route
-    Returns: place id or 404 Error if object not linked to Place object
-    """
+    """GET place"""
     a_place = storage.get("Place", place_id)
     if a_place:
         return jsonify(a_place.to_dict())
@@ -37,11 +30,7 @@ def id_for_place(place_id):
 @app_views.route('/places/<place_id>',
                  strict_slashes=False, methods=['DELETE'])
 def delete_place_id(place_id):
-    """
-    defines Delete for Place objects by id
-    Returns: if successful 200 and an empty dictionary
-             404 if place_id is not linked to any Place obj
-    """
+    """DELETE place"""
     place = storage.get("Place", place_id)
     if place:
         storage.delete(place)
@@ -53,11 +42,7 @@ def delete_place_id(place_id):
 @app_views.route('/cities/<city_id>/places',
                  strict_slashes=False, methods=['POST'])
 def create_place(city_id):
-    """
-    define how to create a new place object
-    Returns: 201 on successful creation
-             400 "Not a JSON" if HTTP body request is not valid
-    """
+    """POST place"""
     city = storage.get("City", city_id)
     if not city:
         abort(404)
@@ -84,12 +69,7 @@ def create_place(city_id):
 @app_views.route('/places/<place_id>',
                  strict_slashes=False, methods=['PUT'])
 def place_update(place_id):
-    """
-    defines how an Update to a place is made
-    Returns: 200 and the place object if successful
-             400 "Not a JSON" if HTTP body request is not valid
-             404 if state_id is not linked to any Place object
-    """
+    """PUT place"""
     place = storage.get("Place", place_id)
     if not place:
         abort(404)
