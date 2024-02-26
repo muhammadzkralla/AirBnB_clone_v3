@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-module that defines API interactions for Places __objects
-"""
+"""Places amenities controller"""
 from api.v1.views import app_views
 from models.amenity import Amenity
 from models import storage
@@ -10,10 +8,7 @@ from flask import jsonify, abort
 
 @app_views.route('/places/<place_id>/amenities', methods=['GET'])
 def get_place_amens(place_id):
-    """
-    defines the places/amenities route
-    Returns: list of all Amenity objects associated with a Place obj
-    """
+    """GET places amenities"""
     place = storage.get('Place', place_id)
 
     if not place:
@@ -25,13 +20,7 @@ def get_place_amens(place_id):
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['DELETE'])
 def del_place_amen(place_id, amenity_id):
-    """
-    defines Delete for Amenity objects
-    Returns: if successful 200 and an empty dictionary
-             404 if amenity_id is not linked to any Place obj
-             404 if Amenity is not linked to the Place prior to request
-             404 if amenity_id is not linked to any amenity obj
-    """
+    """DELETE places amenity"""
     place = storage.get('Place', place_id)
     if not place:
         abort(404)
@@ -50,13 +39,7 @@ def del_place_amen(place_id, amenity_id):
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'])
 def create_place_amenity(place_id, amenity_id):
-    """
-    defines POST for Amenity objects
-    Returns: if successful 200 and a new Amenity obj
-             404 if amenity_id is not linked to any Place obj
-             404 if Amenity is not linked to the Place prior to request
-             404 if amenity_id is not linked to any amenity obj
-    """
+    """POST places amenity"""
     place = storage.get('Place', place_id)
     if not place:
         abort(404)
