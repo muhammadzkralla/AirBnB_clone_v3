@@ -15,6 +15,16 @@ def reviews_of_place(place_id):
     abort(404)
 
 
+@app_views.route("/reviews/<review_id>",
+                 strict_slashes=False, methods=['GET'])
+def get_review(review_id):
+    """GET places review"""
+    review = storage.get("Review", review_id)
+    if review:
+        return jsonify(review.to_dict())
+    abort(404)
+
+
 @app_views.route("/places/<place_id>/reviews",
                  strict_slashes=False, methods=['POST'])
 def create_review(place_id):
@@ -39,16 +49,6 @@ def create_review(place_id):
         storage.new(review)
         storage.save()
         return make_response(jsonify(review.to_dict()), 201)
-    abort(404)
-
-
-@app_views.route("/reviews/<review_id>",
-                 strict_slashes=False, methods=['GET'])
-def get_review(review_id):
-    """GET places review"""
-    review = storage.get("Review", review_id)
-    if review:
-        return jsonify(review.to_dict())
     abort(404)
 
 
