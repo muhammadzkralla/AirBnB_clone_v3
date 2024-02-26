@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""states controller"""
+"""States controller"""
 
 from flask import abort, jsonify, request
 from models.state import State
@@ -74,17 +74,13 @@ def update_state(state_id):
 
 @app_views.errorhandler(404)
 def not_found(error):
-    """
-    Returns error 404 not found
-    """
+    """Returns error 404 not found"""
     response = {'error': 'Not found'}
     return jsonify(response), 404
 
 
 @app_views.errorhandler(400)
 def bad_request(error):
-    """
-    Returns error 400 bad request
-    """
+    """Returns error 400 bad request"""
     response = {'error': 'Bad Request'}
     return jsonify(response), 400
