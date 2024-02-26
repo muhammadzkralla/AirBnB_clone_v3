@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-'''
-Amenity controller
-'''
+"""Amenity controller"""
 
 from flask import abort, jsonify, request
 from models.amenity import Amenity
@@ -19,7 +17,7 @@ def get_all_amenities():
 @app_views.route('/amenities/<amenity_id>',
                  methods=['GET'], strict_slashes=False)
 def get_amenity(amenity_id):
-    '''GET amenity'''
+    """GET amenity"""
     amenity = storage.get(Amenity, amenity_id)
     if amenity:
         return jsonify(amenity.to_dict())
@@ -29,7 +27,7 @@ def get_amenity(amenity_id):
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
 def delete_amenity(amenity_id):
-    '''DELETE amenity'''
+    """DELETE amenity"""
     amenity = storage.get(Amenity, amenity_id)
     if amenity:
         storage.delete(amenity)
@@ -41,7 +39,7 @@ def delete_amenity(amenity_id):
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def create_amenity():
-    '''POST amenity'''
+    """POST amenity"""
     if not request.get_json():
         abort(400, 'Not a JSON')
 
@@ -57,7 +55,7 @@ def create_amenity():
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'],
                  strict_slashes=False)
 def update_amenity(amenity_id):
-    '''PUT amenity'''
+    """PUT amenity"""
     amenity = storage.get(Amenity, amenity_id)
     if amenity:
         if not request.get_json():
@@ -77,13 +75,13 @@ def update_amenity(amenity_id):
 
 @app_views.errorhandler(404)
 def not_found(error):
-    '''Returns error 404 Not Found'''
+    """Returns error 404 Not Found"""
     response = {'error': 'Not found'}
     return jsonify(response), 404
 
 
 @app_views.errorhandler(400)
 def bad_request(error):
-    '''Return error 400 bad request'''
+    """Return error 400 bad request"""
     response = {'error': 'Bad Request'}
     return jsonify(response), 400
