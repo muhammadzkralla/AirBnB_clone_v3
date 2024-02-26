@@ -24,7 +24,6 @@ def get_cities_by_state(state_id):
     return jsonify(cities)
 
 
-
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def get_city(city_id):
     '''
@@ -94,7 +93,6 @@ def update_city(city_id):
         return jsonify(city.to_dict()), 200
     else:
         abort(404)
-
 
 
 @app_views.errorhandler(404)
