@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-"""Renders json view for User object(s)
-"""
+"""User controller"""
+
 from models import storage
 from api.v1.views import app_views
 from flask import jsonify, abort, request, make_response
@@ -9,8 +9,7 @@ from flask import jsonify, abort, request, make_response
 @app_views.route("/users",
                  strict_slashes=False, methods=['GET'])
 def all_users():
-    """Returns list of json representation of all users
-    """
+    """GET users"""
     users = storage.all("User")
     return jsonify([user.to_dict() for user in users.values()])
 
@@ -18,9 +17,7 @@ def all_users():
 @app_views.route("/users/<user_id>",
                  strict_slashes=False, methods=['GET'])
 def get_user(user_id):
-    """Returns a user
-    Raises 404 if no user found based on user_id
-    """
+    """GET user"""
     user = storage.get("User", user_id)
     if user:
         return jsonify(user.to_dict())
@@ -30,8 +27,7 @@ def get_user(user_id):
 @app_views.route("/users/<user_id>",
                  strict_slashes=False, methods=['DELETE'])
 def delete_user(user_id):
-    """delete an user object from storage
-    """
+    """DELETE user"""
     user = storage.get("User", user_id)
     if user:
         storage.delete(user)
@@ -43,8 +39,7 @@ def delete_user(user_id):
 @app_views.route("/users/<user_id>",
                  strict_slashes=False, methods=['PUT'])
 def modify_user(user_id):
-    """modify an user object
-    """
+    """PUT user"""
     ignore = ["id", "email", "created_at", "updated_at"]
     user = storage.get("User", user_id)
     if user:
@@ -62,8 +57,7 @@ def modify_user(user_id):
 @app_views.route("/users",
                  strict_slashes=False, methods=['POST'])
 def create_user():
-    """create a user
-    """
+    """POST user"""
     from models.user import User
     body = request.get_json()
     if not body:
