@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Start listening
-"""
+"""Status and stats controller"""
 from api.v1.views import app_views
 from flask import jsonify
 from models import storage
