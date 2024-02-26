@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-'''
-City controller
-'''
+"""City controller"""
 
 from flask import abort, jsonify, request
 from models.state import State
@@ -13,9 +11,7 @@ from models import storage
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
                  strict_slashes=False)
 def get_cities_by_state(state_id):
-    '''
-    GET cities
-    '''
+    """GET cities"""
     state = storage.get(State, state_id)
     if not state:
         abort(404)
@@ -26,9 +22,7 @@ def get_cities_by_state(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def get_city(city_id):
-    '''
-    GET city
-    '''
+    """GET city"""
     city = storage.get(City, city_id)
     if city:
         return jsonify(city.to_dict())
@@ -38,9 +32,7 @@ def get_city(city_id):
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'])
 def delete_city(city_id):
-    '''
-    DELETE city
-    '''
+    """DELETE city"""
     city = storage.get(City, city_id)
     if city:
         storage.delete(city)
@@ -53,9 +45,7 @@ def delete_city(city_id):
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
                  strict_slashes=False)
 def create_city(state_id):
-    '''
-    POST city
-    '''
+    """POST city"""
     state = storage.get(State, state_id)
     if not state:
         abort(404)
@@ -75,9 +65,7 @@ def create_city(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
-    '''
-    PUT city
-    '''
+    """PUT city"""
     city = storage.get(City, city_id)
     if city:
         if not request.get_json():
@@ -97,15 +85,11 @@ def update_city(city_id):
 
 @app_views.errorhandler(404)
 def not_found(error):
-    '''
-    Returns error 404 Not Found
-    '''
+    """Returns error 404 Not Found"""
     return jsonify({'error': 'Not found'}), 404
 
 
 @app_views.errorhandler(400)
 def bad_request(error):
-    '''
-    Return error 400 bad request
-    '''
+    """Return error 400 bad request"""
     return jsonify({'error': 'Bad Request'}), 400
