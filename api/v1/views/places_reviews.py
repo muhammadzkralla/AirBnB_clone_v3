@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""Renders json view for review objects
-"""
+"""Places reviews controller"""
 from models import storage
 from api.v1.views import app_views
 from flask import jsonify, abort, request, make_response
@@ -9,8 +8,7 @@ from flask import jsonify, abort, request, make_response
 @app_views.route("/places/<place_id>/reviews",
                  strict_slashes=False, methods=['GET'])
 def reviews_of_place(place_id):
-    """returns list of reviews of a place
-    """
+    """GET places reviews"""
     place = storage.get("Place", place_id)
     if place:
         return jsonify([r.to_dict() for r in place.reviews])
@@ -20,8 +18,7 @@ def reviews_of_place(place_id):
 @app_views.route("/places/<place_id>/reviews",
                  strict_slashes=False, methods=['POST'])
 def create_review(place_id):
-    """create a review for a place
-    """
+    """POST places review"""
     from models.review import Review
     place = storage.get("Place", place_id)
     if place:
@@ -48,8 +45,7 @@ def create_review(place_id):
 @app_views.route("/reviews/<review_id>",
                  strict_slashes=False, methods=['GET'])
 def get_review(review_id):
-    """returns a review
-    """
+    """GET places review"""
     review = storage.get("Review", review_id)
     if review:
         return jsonify(review.to_dict())
@@ -59,8 +55,7 @@ def get_review(review_id):
 @app_views.route("/reviews/<review_id>",
                  strict_slashes=False, methods=['DELETE'])
 def delete_review(review_id):
-    """delete a review
-    """
+    """DELETE places review"""
     review = storage.get("Review", review_id)
     if review:
         storage.delete(review)
@@ -72,8 +67,7 @@ def delete_review(review_id):
 @app_views.route("/reviews/<review_id>",
                  strict_slashes=False, methods=['PUT'])
 def modify_review(review_id):
-    """modify a review object
-    """
+    """PUT places review"""
     ignore = ["id", "user_id", "place_id", "created_at", "updated_at"]
     review = storage.get("Review", review_id)
     if review:
